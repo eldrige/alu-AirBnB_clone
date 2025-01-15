@@ -1,37 +1,25 @@
-#!/usr/bin/python3
-import os
-import shlex
+#!/usr/bin/env python3
+import cmd
 
 
-def execute_command(command):
-    # Split the command into arguments
-    args = shlex.split(command)
+class HBNBCommand(cmd.Cmd):
+    def do_quit(self, line):
+        return True
 
-    # Execute the command
-    try:
-        result = os.system(command)
-        return result
-    except Exception as e:
-        return str(e)
+    def do_EOF(self, line):
+        return True
 
+    def do_help(self, line):
+        print("Documented commands (type help <topic>):")
+        print("========================================")
+        print("EOF  help  quit")
 
-def main():
-    while True:
-        # Display a prompt
-        command = input(">> ")
-
-        # Exit the interpreter
-        if command.lower() in ["exit", "quit"]:
-            print("Exiting the command interpreter.")
-            break
-
-        # Execute the command
-        output = execute_command(command)
-
-        # Print the output
-        if output != 0:
-            print(f"Error: {output}")
+    def emptyline(self):
+        """
+        An empty line + ENTER shouldn't execute anything
+        """
+        pass
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
